@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "nodejs-task:${env.BUILD_NUMBER}"
+        IMAGE_NAME = "nodejs-task"
     }
 
     stages {
