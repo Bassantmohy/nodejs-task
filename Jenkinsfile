@@ -1,45 +1,34 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME = "nodejs-task"
-    }
-
     stages {
         stage('Checkout') {
             steps {
-                echo "Checking out source code..."
+                echo 'Checking out source code...'
                 checkout scm
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                echo "Building Docker image..."
-                script {
-                    sh "docker build -t ${IMAGE_NAME} ."
-                }
+                echo 'Building Docker image...'
+                sh 'docker build -t nodejs-task:4 .'
             }
         }
 
         stage('Run Container') {
             steps {
-                echo "Running container..."
-                script {
-                    sh '''
-                        if docker ps -a --format '{{.Names}}' | grep -Eq "^${IMAGE_NAME}\$"; then
-                            docker rm -f ${IMAGE_NAME} || true
-                        fi
-                        docker run -d --name ${IMAGE_NAME} -p 3000:3000 ${IMAGE_NAME}
-                    '''
-                }
+                echo 'Running container...'
+                // احذفي أي container قديم بنفس الاسم قبل ما تشغلي الجديد
+                sh 'docker rm -f nodejs-task-4 || true'
+                sh 'docker run -d --name nodejs-task-4 -p 3000:3000 nodejs-task:4'
             }
         }
     }
 
     post {
         always {
-            echo "Pipeline finished ✅"
+            echo 'Pipeline finished ✅'
         }
     }
 }
