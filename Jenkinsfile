@@ -21,7 +21,7 @@ pipeline {
                 echo 'Running container...'
                 // احذفي أي container قديم بنفس الاسم قبل ما تشغلي الجديد
                 sh 'docker rm -f nodejs-task-4 || true'
-                sh 'docker run -d --name nodejs-task-4 -p 3000:3000 nodejs-task:4'
+                sh 'docker run -d --name nodejs-task:4 -p 3001:3001 nodejs-task:4'
             }
         }
     }
